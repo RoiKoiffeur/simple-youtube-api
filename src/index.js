@@ -151,7 +151,7 @@ class YouTube {
     
     // Get channels by ids
     getChannelsByID(ids, options = {}) {
-        return this.request.getPaginated(Constants.ENDPOINTS.Channels, 50, Object.assign(options, {
+        return this.request.getPaginated(Constants.ENDPOINTS.Channels, ids.length, Object.assign(options, {
             id: ids.join(','),
             part: Constants.PARTS.Channels
         })).then(result => result.map(item => {return new Channel(this, item)}));
