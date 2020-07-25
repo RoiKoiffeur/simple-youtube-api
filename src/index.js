@@ -148,6 +148,14 @@ class YouTube {
     getChannelByID(id, options = {}) {
         return this.request.getChannel(id, options).then(result => result ? new Channel(this, result) : null);
     }
+    
+    // Get channels by ids
+    getChannelsByID(ids, options = {}) {
+        return this.request.getPaginated(Constants.ENDPOINTS.Channels, 50, Object.assign(options, {
+            id: ids.join(','),
+            part: Constants.PARTS.Channels
+        })).then(result => result.map(item => {return new Channel(this, item)}));
+    }
 
     /**
      * Search YouTube for videos, playlists, and channels
