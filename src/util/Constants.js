@@ -3,7 +3,7 @@ exports.PARTS = {
     Videos: 'snippet,contentDetails',
     Playlists: 'snippet',
     PlaylistItems: 'snippet,status',
-    Channels: 'snippet'
+    Channels: 'snippet,contentDetails'
 };
 
 exports.KINDS = {
