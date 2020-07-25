@@ -1,6 +1,8 @@
 const fetch = require('node-fetch');
 const Constants = require('./util/Constants');
 
+const rep = {'/': '%2F', '@': '%40', '+': '%2B'};
+
 class Request {
     constructor(youtube) {
         this.youtube = youtube;
@@ -14,8 +16,8 @@ class Request {
      */
     make(endpoint, qs = {}) {
         qs = Object.assign({ key: this.youtube.key }, qs);
-        const params = Object.keys(qs).filter(k => qs[k]).map(k => `${k}=${encodeURIComponent(qs[k])}`);
-        return fetch(encodeURI(`https://www.googleapis.com/youtube/v3/${endpoint}${params.length ? `?${params.join('&')}` : ''}`))
+        const params = Object.keys(qs).filter(k => qs[k]).map(k => `${k}=${escape(qs[k]).replace(/[\/\@\+]/g, m => rep[m])}`);
+        return fetch(`https://www.googleapis.com/youtube/v3/${endpoint}${params.length ? `?${params.join('&')}` : ''}`)
             .then(result => result.json())
             .then(result => {
                 if (result.error) return Promise.reject(result.error);
